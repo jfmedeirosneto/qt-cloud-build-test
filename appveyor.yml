@@ -11,7 +11,7 @@ install:
 build_script:
   - qmake.exe CloudBuildTest.pro -spec win32-g++
   - mingw32-make.exe -f Makefile.Release
-  - 7z a release.zip %APPVEYOR_BUILD_FOLDER%\release\*.exe
+  - 7z a release-1.0.{build}.zip %APPVEYOR_BUILD_FOLDER%\release\*.exe
 
 artifacts:
   - path: release.zip
