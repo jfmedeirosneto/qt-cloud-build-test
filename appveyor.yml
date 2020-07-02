@@ -8,5 +8,5 @@ install:
   - set QTTOOLS=C:\Qt\Tools\mingw530_32
   - set PATH=%PATH%;%QTDIR%\bin;%QTTOOLS%\bin;C:\MinGW\bin
 build_script:
-  - qmake CloudBuildTest.pro
-  - mingw32-make
+  - qmake.exe CloudBuildTest.pro -spec win32-g++
+  - mingw32-make.exe
