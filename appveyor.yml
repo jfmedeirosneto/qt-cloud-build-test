@@ -14,5 +14,5 @@ build_script:
   - 7z a release-1.0.{build}.zip %APPVEYOR_BUILD_FOLDER%\release\*.exe
 
 artifacts:
-  - path: release.zip
+  - path: release-1.0.{build}.zip
     name: release
