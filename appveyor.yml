@@ -24,5 +24,5 @@ deploy:
   username: dlpuser@dlptest.com
   password:
     secure: oGz0IzCyeeK2DoUm1fQoDbTeJPVe8CLyxUsYj2stz0g=
-  folder: CloudBuildTest
-  artifact:
+  folder:
+  artifact: CloudBuildTest
