@@ -11,18 +11,8 @@ install:
 build_script:
   - qmake.exe CloudBuildTest.pro -spec win32-g++
   - mingw32-make.exe -f Makefile.Release
-  - 7z a CloudBuildTest.zip %APPVEYOR_BUILD_FOLDER%\release\*.exe
+  - 7z a release.zip %APPVEYOR_BUILD_FOLDER%\release\*.exe
 
 artifacts:
-- path: CloudBuildTest.zip
-  name: CloudBuildTest
-
-deploy:
-  provider: FTP
-  host: ftp.dlptest.com
-  protocol: ftp
-  username: dlpuser@dlptest.com
-  password:
-    secure: oGz0IzCyeeK2DoUm1fQoDbTeJPVe8CLyxUsYj2stz0g=
-  folder:
-  artifact: CloudBuildTest
+  - path: release.zip
+    name: release
