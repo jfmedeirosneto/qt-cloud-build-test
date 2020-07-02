@@ -7,6 +7,22 @@ install:
   - set QTDIR=C:\Qt\5.10.1\mingw53_32
   - set QTTOOLS=C:\Qt\Tools\mingw530_32
   - set PATH=%PATH%;%QTDIR%\bin;%QTTOOLS%\bin;C:\MinGW\bin
+
 build_script:
   - qmake.exe CloudBuildTest.pro -spec win32-g++
   - mingw32-make.exe -f Makefile.Release
+  - 7z a CloudBuildTest.zip %APPVEYOR_BUILD_FOLDER%\release\*.exe
+
+artifacts:
+- path: CloudBuildTest.zip
+  name: CloudBuildTest
+
+deploy:
+  provider: FTP
+  host: ftp.dlptest.com
+  protocol: ftp
+  username: dlpuser@dlptest.com
+  password:
+    secure: oGz0IzCyeeK2DoUm1fQoDbTeJPVe8CLyxUsYj2stz0g=
+  folder: CloudBuildTest
+  artifact:
