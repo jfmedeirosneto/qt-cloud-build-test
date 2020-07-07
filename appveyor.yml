@@ -10,6 +10,7 @@ install:
 
 build_script:
   - qmake.exe CloudBuildTest.pro -spec win32-g++
+  - mingw32-make.exe qmake_all  
   - mingw32-make.exe -f Makefile.Release
   - 7z a release-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\release\*.exe
 
