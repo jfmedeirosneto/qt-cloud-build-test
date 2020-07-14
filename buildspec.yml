@@ -8,14 +8,17 @@ env:
 phases:
   install:
     commands:
-      - echo "--- install commands"
+      - |
+        echo "--- install commands"
   pre_build:
     commands:
-      - echo "--- pre_build commands"
       - |
-        echo $env:QTDIR
-        echo $env:QTTOOLS
+        echo "--- pre_build commands"
+  build:
+    commands:
+      - |
+        echo "--- build commands"    
         $env:Path = "$($env:QTDIR)\bin;$($env:QTTOOLS)\bin;$env:Path"
-        echo $env:Path
-        qmake.exe --version
-        mingw32-make.exe --version
+        qmake.exe CloudBuildTest.pro -spec win32-g++
+        mingw32-make.exe qmake_all
+        mingw32-make.exe -f Makefile.Release
