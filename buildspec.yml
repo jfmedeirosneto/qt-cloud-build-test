@@ -2,9 +2,9 @@ version: 0.2
 
 env:
   variables:
-    QTDIR: C:\Qt\5.10.1\mingw53_32
+    QTDIR: C:\Qt\5.10.0\mingw53_32
     QTTOOLS: C:\Qt\Tools\mingw530_32
- 
+
 phases:
   install:
     commands:
@@ -12,5 +12,6 @@ phases:
   pre_build:
     commands:
       - echo "--- pre_build commands"
-      - $env:Path = "$env:QTDIR\bin;$env:QTTOOLS\bin;C:\MinGW\bin;$env:Path"
-      - env
+      - $env:Path = "$env:QTDIR\bin;$env:QTTOOLS\bin;$env:Path"
+      - qmake.exe --version
+      - mingw32-make.exe --version
