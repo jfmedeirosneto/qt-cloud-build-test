@@ -12,9 +12,10 @@ phases:
   pre_build:
     commands:
       - echo "--- pre_build commands"
-      - echo $env:QTDIR
-      - echo $env:QTTOOLS
-      - '$env:Path = "$env:QTDIR\bin;$env:QTTOOLS\bin;$env:Path"'
-      - echo $env:Path
-      - qmake.exe --version
-      - mingw32-make.exe --version
+      - |
+        echo $env:QTDIR
+        echo $env:QTTOOLS
+        $env:Path = "$($env:QTDIR)\bin;$($env:QTTOOLS)\bin;$env:Path"
+        echo $env:Path
+        qmake.exe --version
+        mingw32-make.exe --version
