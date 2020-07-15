@@ -18,9 +18,17 @@ steps:
   - script: |
       cd $(Build.BinariesDirectory)
       mkdir Qt
-      python -m aqt install --outputdir $(Build.BinariesDirectory)\\Qt 5.10.0 windows desktop win32_mingw53 -m qtcore qtgui qtxml qtwidgets
-      python -m aqt tool --outputdir $(Build.BinariesDirectory)\\Qt windows tools_mingw 5.3.0-0 qt.tools.win32_mingw530
+    displayName: 'Create Qt Dir'
+
+  - script: |
+      cd $(Build.BinariesDirectory)
+      python -m aqt install --outputdir $(Build.BinariesDirectory)\\Qt 5.10.0 windows desktop win32_mingw53
     displayName: 'Install Qt 5.10.0'
+
+  - script: |
+      cd $(Build.BinariesDirectory)
+      python -m aqt tool --outputdir $(Build.BinariesDirectory)\\Qt windows tools_mingw 5.3.0-0 qt.tools.win32_mingw530
+    displayName: 'Install Qt Tools'    
 
   - script: |
       set QTDIR=$(Build.BinariesDirectory)\\Qt\\5.10.0\\mingw53_32
