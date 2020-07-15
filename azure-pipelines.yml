@@ -32,9 +32,9 @@ steps:
 
   - script: |
       cd $(Build.SourcesDirectory)
-      set QTDIR=$(Build.BinariesDirectory)\\Qt\\5.10.0\\mingw53_32\\bin
-      set QTTOOLS=$(Build.BinariesDirectory)\\Qt\\Tools\\mingw530_32\\bin
-      set PATH=%PATH%;%QTDIR%\bin;%QTTOOLS%\bin;C:\MinGW\bin
+      set QTDIR=$(Build.BinariesDirectory)\\Qt\\5.10.0\\mingw53_32
+      set QTTOOLS=$(Build.BinariesDirectory)\\Qt\\Tools\\mingw530_32
+      set PATH=%PATH%;%QTDIR%\\bin;%QTTOOLS%\\bin
       qmake.exe CloudBuildTest.pro -spec win32-g++
       mingw32-make.exe qmake_all
       mingw32-make.exe -f Makefile.Release
