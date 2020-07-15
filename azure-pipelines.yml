@@ -15,30 +15,38 @@ steps:
       python -m pip install aqtinstall
     displayName: 'Install Another Qt installer https://github.com/miurahr/aqtinstall/'
 
+  - task: Cache@2
+    inputs:
+      key: 'qt | "$(Agent.OS)" | qt.lock'
+      path: $(Build.BinariesDirectory)\\Qt
+      cacheHitVar: QT_CACHE_RESTORED
+
   - script: |
-      cd $(Build.BinariesDirectory)
-      mkdir Qt
+      mkdir $(Build.BinariesDirectory)\\Qt
     displayName: 'Create Qt Dir'
+    condition: ne(variables.QT_CACHE_RESTORED, 'true')
 
   - script: |
       cd $(Build.BinariesDirectory)
       python -m aqt install -O $(Build.BinariesDirectory)\\Qt 5.10.0 windows desktop win32_mingw53
     displayName: 'Install Qt 5.10.0'
+    condition: ne(variables.QT_CACHE_RESTORED, 'true')
 
   - script: |
       cd $(Build.BinariesDirectory)
       python -m aqt tool -O $(Build.BinariesDirectory)\\Qt windows tools_mingw 5.3.0-2 qt.tools.win32_mingw530
-    displayName: 'Install Qt Tools'    
+    displayName: 'Install Qt Tools'
+    condition: ne(variables.QT_CACHE_RESTORED, 'true')
 
-  - script: |
-      set QTDIR=$(Build.BinariesDirectory)\\Qt\\5.10.0\\mingw53_32
-      set QTTOOLS=$(Build.BinariesDirectory)\\Qt\\Tools\\mingw530_32
-      set PATH=%QTDIR%\\bin;%QTTOOLS%\\bin;%PATH%
-      dir %QTDIR%
-      dir %QTTOOLS%
-      %QTDIR%\\bin\\qmake.exe --version
-      %QTTOOLS%\\bin\\mingw32-make.exe --version
-    displayName: 'Check Qt 5.10.0'
+#  - script: |
+#      set QTDIR=$(Build.BinariesDirectory)\\Qt\\5.10.0\\mingw53_32
+#      set QTTOOLS=$(Build.BinariesDirectory)\\Qt\\Tools\\mingw530_32
+#      set PATH=%QTDIR%\\bin;%QTTOOLS%\\bin;%PATH%
+#      dir %QTDIR%
+#      dir %QTTOOLS%
+#      %QTDIR%\\bin\\qmake.exe --version
+#      %QTTOOLS%\\bin\\mingw32-make.exe --version
+#    displayName: 'Check Qt 5.10.0'
 
   - script: |
       cd $(Build.SourcesDirectory)
@@ -51,11 +59,12 @@ steps:
     displayName: 'Build Project'    
   - task: CopyFiles@2
     inputs:
+      sourceFolder: $(Build.SourcesDirectory)\\release
       contents: |
-        $(Build.SourcesDirectory)\\release\\CloudBuildTest.exe
+        CloudBuildTest.exe
       targetFolder: $(Build.ArtifactStagingDirectory)
 
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: $(Build.ArtifactStagingDirectory)
-      artifactName: CloudBuildTestRelease-$(Build.BuildNumber)
+      artifactName: release-$(Build.BuildNumber)
