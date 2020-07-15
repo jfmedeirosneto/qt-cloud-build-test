@@ -4,43 +4,48 @@ trigger:
 pool:
   vmImage: 'vs2017-win2016'
 
+variables:
+  INSTALL_QT_DIR : $(Build.BinariesDirectory)\\Qt
+
 steps:
+  - task: Cache@2
+    inputs:
+      key: qt-install-cache-$(Agent.OS)
+      path: $(INSTALL_QT_DIR)
+      cacheHitVar: QT_CACHE_RESTORED
+
   - task: UsePythonVersion@0
     inputs:
       versionSpec: '3.x'
       addToPath: true
       architecture: 'x64'
+    condition: ne(variables.QT_CACHE_RESTORED, 'true')
 
   - script: |
       python -m pip install aqtinstall
     displayName: 'Install Another Qt installer https://github.com/miurahr/aqtinstall/'
-
-  - task: Cache@2
-    inputs:
-      key: 'qt | "$(Agent.OS)" | qt.lock'
-      path: $(Build.BinariesDirectory)\\Qt
-      cacheHitVar: QT_CACHE_RESTORED
+    condition: ne(variables.QT_CACHE_RESTORED, 'true')
 
   - script: |
-      mkdir $(Build.BinariesDirectory)\\Qt
+      mkdir $(INSTALL_QT_DIR)
     displayName: 'Create Qt Dir'
     condition: ne(variables.QT_CACHE_RESTORED, 'true')
 
   - script: |
       cd $(Build.BinariesDirectory)
-      python -m aqt install -O $(Build.BinariesDirectory)\\Qt 5.10.0 windows desktop win32_mingw53
+      python -m aqt install -O $(INSTALL_QT_DIR) 5.10.0 windows desktop win32_mingw53
     displayName: 'Install Qt 5.10.0'
     condition: ne(variables.QT_CACHE_RESTORED, 'true')
 
   - script: |
       cd $(Build.BinariesDirectory)
-      python -m aqt tool -O $(Build.BinariesDirectory)\\Qt windows tools_mingw 5.3.0-2 qt.tools.win32_mingw530
+      python -m aqt tool -O $(INSTALL_QT_DIR) windows tools_mingw 5.3.0-2 qt.tools.win32_mingw530
     displayName: 'Install Qt Tools'
     condition: ne(variables.QT_CACHE_RESTORED, 'true')
 
 #  - script: |
-#      set QTDIR=$(Build.BinariesDirectory)\\Qt\\5.10.0\\mingw53_32
-#      set QTTOOLS=$(Build.BinariesDirectory)\\Qt\\Tools\\mingw530_32
+#      set QTDIR=$(INSTALL_QT_DIR)\\5.10.0\\mingw53_32
+#      set QTTOOLS=$(INSTALL_QT_DIR)\\Tools\\mingw530_32
 #      set PATH=%QTDIR%\\bin;%QTTOOLS%\\bin;%PATH%
 #      dir %QTDIR%
 #      dir %QTTOOLS%
@@ -50,8 +55,8 @@ steps:
 
   - script: |
       cd $(Build.SourcesDirectory)
-      set QTDIR=$(Build.BinariesDirectory)\\Qt\\5.10.0\\mingw53_32
-      set QTTOOLS=$(Build.BinariesDirectory)\\Qt\\Tools\\mingw530_32
+      set QTDIR=$(INSTALL_QT_DIR)\\5.10.0\\mingw53_32
+      set QTTOOLS=$(INSTALL_QT_DIR)\\Tools\\mingw530_32
       set PATH=%QTDIR%\\bin;%QTTOOLS%\\bin;%PATH%
       %QTDIR%\\bin\\qmake.exe CloudBuildTest.pro -spec win32-g++
       %QTTOOLS%\\bin\\mingw32-make.exe qmake_all
