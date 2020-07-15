@@ -13,6 +13,7 @@ steps:
       key: qt-install-cache-$(Agent.OS)
       path: $(INSTALL_QT_DIR)
       cacheHitVar: QT_CACHE_RESTORED
+    displayName: 'Cache Install Qt'
 
   - task: UsePythonVersion@0
     inputs:
@@ -42,16 +43,6 @@ steps:
       python -m aqt tool -O $(INSTALL_QT_DIR) windows tools_mingw 5.3.0-2 qt.tools.win32_mingw530
     displayName: 'Install Qt Tools'
     condition: ne(variables.QT_CACHE_RESTORED, 'true')
-
-#  - script: |
-#      set QTDIR=$(INSTALL_QT_DIR)\\5.10.0\\mingw53_32
-#      set QTTOOLS=$(INSTALL_QT_DIR)\\Tools\\mingw530_32
-#      set PATH=%QTDIR%\\bin;%QTTOOLS%\\bin;%PATH%
-#      dir %QTDIR%
-#      dir %QTTOOLS%
-#      %QTDIR%\\bin\\qmake.exe --version
-#      %QTTOOLS%\\bin\\mingw32-make.exe --version
-#    displayName: 'Check Qt 5.10.0'
 
   - script: |
       cd $(Build.SourcesDirectory)
