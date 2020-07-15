@@ -22,7 +22,7 @@ steps:
 
   - script: |
       cd $(Build.BinariesDirectory)
-      REM python -m aqt install -O $(Build.BinariesDirectory)\\Qt 5.10.0 windows desktop win32_mingw53
+      python -m aqt install -O $(Build.BinariesDirectory)\\Qt 5.10.0 windows desktop win32_mingw53
     displayName: 'Install Qt 5.10.0'
 
   - script: |
@@ -38,7 +38,7 @@ steps:
       dir %QTTOOLS%
       %QTDIR%\\bin\\qmake.exe --version
       %QTTOOLS%\\bin\\mingw32-make.exe --version
-    displayName: 'Test Qt 5.10.0'
+    displayName: 'Check Qt 5.10.0'
 
   - script: |
       cd $(Build.SourcesDirectory)
