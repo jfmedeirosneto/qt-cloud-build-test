@@ -18,14 +18,16 @@ steps:
   - script: |
       cd $(Build.BinariesDirectory)
       mkdir Qt
-      python -m aqt install --outputdir $(Build.BinariesDirectory)\\Qt 5.10.0 windows desktop win32_mingw53
-      python -m aqt tool --outputdir $(Build.BinariesDirectory)\\Qt windows tools_mingw 5.3.0-2 qt.tools.win32_mingw530
+      python -m aqt install --outputdir $(Build.BinariesDirectory)\\Qt 5.10.0 windows desktop win32_mingw53 -m qtcore qtgui qtxml qtwidgets
+      python -m aqt tool --outputdir $(Build.BinariesDirectory)\\Qt windows tools_mingw 5.3.0-0 qt.tools.win32_mingw530
     displayName: 'Install Qt 5.10.0'
 
   - script: |
       set QTDIR=$(Build.BinariesDirectory)\\Qt\\5.10.0\\mingw53_32
       set QTTOOLS=$(Build.BinariesDirectory)\\Qt\\Tools\\mingw530_32
-      set PATH=%PATH%;%QTDIR%\\bin;%QTTOOLS%\\bin
+      set PATH=%QTDIR%\\bin;%QTTOOLS%\\bin;%PATH%
+      dir %QTDIR%\\bin
+      dir %QTTOOLS%\\bin
       qmake.exe --version
       mingw32-make.exe --version
     displayName: 'Test Qt 5.10.0'
