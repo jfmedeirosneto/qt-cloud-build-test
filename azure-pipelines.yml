@@ -10,14 +10,31 @@ pool:
   vmImage: 'vs2017-win2016'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'
+      addToPath: true
+      architecture: 'x64'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  - script: |
+      cd $(Build.SourcesDirectory)
+      python -m pip install aqtinstall
+    displayName: 'Install Another Qt installer https://github.com/miurahr/aqtinstall/'
 
-- script: |
-    cd $(Build.SourcesDirectory)
-    dir
+  - script: |
+      cd $(Build.BinariesDirectory)
+      mkdir Qt
+      python -m aqt install --outputdir $(Build.BinariesDirectory)\\Qt 5.10.0 windows desktop win32_mingw53 -m qtcore qtgui qtwidgets
+      python -m aqt tool --outputdir $(Build.BinariesDirectory)\\Qt windows tools_mingw 5.3.0-2 qt.tools.win32_mingw530
+    displayName: 'Install Qt 5.10.0'
+
+  - script: |
+      cd $(Build.BinariesDirectory)
+      dir $(Build.BinariesDirectory)\\Qt
+      $(Build.BinariesDirectory)\\Qt\\5.10.0\\mingw53_32\\bin\\qmake.exe --version
+      $(Build.BinariesDirectory)\\Qt\\Tools\\mingw530_32\\bin\\mingw32-make.exe --version
+    displayName: 'Test Qt 5.10.0'    
+
+  
+
+
