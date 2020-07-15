@@ -22,3 +22,7 @@ phases:
         qmake.exe CloudBuildTest.pro -spec win32-g++
         mingw32-make.exe qmake_all
         mingw32-make.exe -f Makefile.Release
+
+artifacts:
+  files:
+    - release\CloudBuildTest.exe
