@@ -30,11 +30,23 @@ steps:
 
   - script: |
       cd $(Build.BinariesDirectory)
-      dir $(Build.BinariesDirectory)\\Qt
       $(Build.BinariesDirectory)\\Qt\\5.10.0\\mingw53_32\\bin\\qmake.exe --version
       $(Build.BinariesDirectory)\\Qt\\Tools\\mingw530_32\\bin\\mingw32-make.exe --version
-    displayName: 'Test Qt 5.10.0'    
+    displayName: 'Test Qt 5.10.0'
 
-  
+  - script: |
+      cd $(Build.SourcesDirectory)
+      $(Build.BinariesDirectory)\\Qt\\5.10.0\\mingw53_32\\bin\\qmake.exe CloudBuildTest.pro -spec win32-g++
+      $(Build.BinariesDirectory)\\Qt\\Tools\\mingw530_32\\bin\\mingw32-make.exe qmake_all
+      $(Build.BinariesDirectory)\\Qt\\Tools\\mingw530_32\\bin\\mingw32-make.exe -f Makefile.Release
+    displayName: 'Build Project'    
+  - task: CopyFiles@2
+    inputs:
+      contents: |
+        $(Build.SourcesDirectory)\\release\\CloudBuildTest.exe
+      targetFolder: $(Build.ArtifactStagingDirectory)
 
-
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: $(Build.ArtifactStagingDirectory)
+      artifactName: CloudBuildTestRelease-$(Build.BuildNumber)
