@@ -26,20 +26,20 @@ steps:
       set QTDIR=$(Build.BinariesDirectory)\\Qt\\5.10.0\\mingw53_32
       set QTTOOLS=$(Build.BinariesDirectory)\\Qt\\Tools\\mingw530_32
       set PATH=%QTDIR%\\bin;%QTTOOLS%\\bin;%PATH%
-      dir %QTDIR%\\bin
-      dir %QTTOOLS%\\bin
-      qmake.exe --version
-      mingw32-make.exe --version
+      dir %QTDIR%
+      dir %QTTOOLS%
+      %QTDIR%\\bin\\qmake.exe --version
+      %QTTOOLS%\\bin\\mingw32-make.exe --version
     displayName: 'Test Qt 5.10.0'
 
   - script: |
       cd $(Build.SourcesDirectory)
       set QTDIR=$(Build.BinariesDirectory)\\Qt\\5.10.0\\mingw53_32
       set QTTOOLS=$(Build.BinariesDirectory)\\Qt\\Tools\\mingw530_32
-      set PATH=%PATH%;%QTDIR%\\bin;%QTTOOLS%\\bin
-      qmake.exe CloudBuildTest.pro -spec win32-g++
-      mingw32-make.exe qmake_all
-      mingw32-make.exe -f Makefile.Release
+      set PATH=%QTDIR%\\bin;%QTTOOLS%\\bin;%PATH%
+      %QTDIR%\\bin\\qmake.exe CloudBuildTest.pro -spec win32-g++
+      %QTTOOLS%\\bin\\mingw32-make.exe qmake_all
+      %QTTOOLS%\\bin\\mingw32-make.exe -f Makefile.Release
     displayName: 'Build Project'    
   - task: CopyFiles@2
     inputs:
