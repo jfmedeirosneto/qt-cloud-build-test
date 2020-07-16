@@ -34,8 +34,7 @@ RUN dir "%QTTOOLS%" && dir "%QTTOOLS%\bin"
 #### Silent intaller Qt script example (install_qt-5.10.0.qs) used by Dockerfile:
 ```Javascript
 function Controller() {
-	gui.setSilent(true);
-
+    gui.setSilent(true);
     installer.autoRejectMessageBoxes();
     installer.setMessageBoxAutomaticAnswer("OverwriteTargetDirectory", QMessageBox.Yes);
     installer.setMessageBoxAutomaticAnswer("installationErrorWithRetry", QMessageBox.Ignore);
