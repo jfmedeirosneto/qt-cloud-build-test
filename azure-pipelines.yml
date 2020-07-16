@@ -52,7 +52,8 @@ steps:
       %QTDIR%\\bin\\qmake.exe CloudBuildTest.pro -spec win32-g++
       %QTTOOLS%\\bin\\mingw32-make.exe qmake_all
       %QTTOOLS%\\bin\\mingw32-make.exe -f Makefile.Release
-    displayName: 'Build Project'    
+    displayName: 'Build Project'
+
   - task: CopyFiles@2
     inputs:
       sourceFolder: $(Build.SourcesDirectory)\\release
