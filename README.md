@@ -1,7 +1,7 @@
 # qt-cloud-build-test
 
 Project sample to test Qt build on cloud service\
-Tests maked with Qt 5.10.0 and MinGW 5.3.0
+Tests implemented with Qt 5.10.0 and MinGW 5.3.0
 
 ### Tested services:
 
