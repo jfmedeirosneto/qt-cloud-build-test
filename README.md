@@ -9,6 +9,10 @@ Tests implemented with Qt 5.10.0 and MinGW 5.3.0
   * Only works with a custom image with Qt installation (https://aws.amazon.com/pt/blogs/devops/extending-aws-codebuild-with-custom-build-environments/)
 * [azure-pipelines.yml](azure-pipelines.yml) : Azure Pipelines (https://azure.microsoft.com/en-us/services/devops/pipelines/)
 
+### Publics builds
+* AppVeyor : https://ci.appveyor.com/project/jfmedeirosneto/qt-cloud-build-test
+* Azure Pipelines : https://dev.azure.com/jfmedeirosneto/qt-cloud-build-test/_build
+
 #### Dockerfile example for AWS CodeBuild image:
 ```Dockerfile
 FROM mcr.microsoft.com/windows/servercore:ltsc2016
@@ -59,8 +63,7 @@ Controller.prototype.IntroductionPageCallback = function() {
     gui.clickButton(buttons.NextButton);
 }
 
-Controller.prototype.TargetDirectoryPageCallback = function()
-{
+Controller.prototype.TargetDirectoryPageCallback = function() {
     console.log("TargetDirectoryPageCallback");
     var widget = gui.currentPageWidget();
     gui.currentPageWidget().TargetDirectoryLineEdit.setText("C:\\Qt");
@@ -69,11 +72,9 @@ Controller.prototype.TargetDirectoryPageCallback = function()
 
 Controller.prototype.ComponentSelectionPageCallback = function() {
     var widget = gui.currentPageWidget();
-
     widget.deselectAll();
     widget.selectComponent("qt.qt5.5100.win32_mingw53");
-	widget.selectComponent("qt.tools.win32_mingw530");
-
+    widget.selectComponent("qt.tools.win32_mingw530");
     gui.clickButton(buttons.NextButton);
 }
 
@@ -88,8 +89,7 @@ Controller.prototype.StartMenuDirectoryPageCallback = function() {
     gui.clickButton(buttons.NextButton);
 }
 
-Controller.prototype.ReadyForInstallationPageCallback = function()
-{
+Controller.prototype.ReadyForInstallationPageCallback = function() {
     console.log("ReadyForInstallationPageCallback");
     gui.clickButton(buttons.NextButton);
 }
@@ -97,8 +97,7 @@ Controller.prototype.ReadyForInstallationPageCallback = function()
 Controller.prototype.FinishedPageCallback = function() {
     console.log("FinishedPageCallback");
     var lanchQtCreatorCheckBoxForm = gui.currentPageWidget().LaunchQtCreatorCheckBoxForm;
-    if(lanchQtCreatorCheckBoxForm)
-    {
+    if(lanchQtCreatorCheckBoxForm) {
         lanchQtCreatorCheckBoxForm.launchQtCreatorCheckBox.setChecked(false);
     }
     gui.clickButton(buttons.FinishButton);
