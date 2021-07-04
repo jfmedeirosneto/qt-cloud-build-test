@@ -1,6 +1,6 @@
 # qt-cloud-build-test
 
-Project sample to test Qt build on cloud service\
+Project sample to test Qt build on cloud services like AWS CodeBuild, Azure Pipelines and AppVeyor\
 Tests implemented with Qt 5.10.0 and MinGW 5.3.0
 
 ### Tested services:
